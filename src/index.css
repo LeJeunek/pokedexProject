@@ -1,0 +1,60 @@
+/* Global font */
+* {
+  font-family: "Press Start 2P", cursive;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: url(assets/bg-3.png) no-repeat center center fixed;
+  background-size: cover;
+  color: #fafafa;
+  overflow: hidden;
+}
+
+.pokedex-container {
+  min-height: 100vh;
+  border: 8px solid #7a4f20;
+}
+
+.pokedex-left {
+  background-color: white;
+  border: 5px solid green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 650px;
+  height: 80vh;
+  margin-top: 90px;
+}
+
+.pokedex-list {
+  overflow: hidden;
+  background: #e8f038;
+  border: 5px solid rgb(241, 55, 22);
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.list-item.active {
+  background-color: #ffcb05;
+  color: #2a75bb;
+  font-weight: 700;
+}
+
+.pokeEmblem {
+  height: 90vh;
+  position: absolute;
+  left: -550px;
+}
