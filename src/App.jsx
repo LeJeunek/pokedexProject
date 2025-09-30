@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
 import pokeEmblem from "./assets/pokemonEmblem.svg";
 import "./index.css";
-
+import { useQuery } from "@tanstack/react-query";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper/modules";
@@ -11,33 +11,47 @@ import { Mousewheel } from "swiper/modules";
 import "swiper/css";
 
 function App() {
-  const [pokedex, setPokedex] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const swiperRef = useRef(null);
 
   // Fetch Pokémon with sprites
-  useEffect(() => {
-    const fetchPokedex = async () => {
-      const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=386");
-      const data = await res.json();
 
-      const pokedexWithSprites = await Promise.all(
-        data.results.map(async (p) => {
-          const res2 = await fetch(p.url);
-          const pokeData = await res2.json();
-          return { ...p, sprite: pokeData.sprites.front_default };
-        })
-      );
+  const fetchPokedex = async () => {
+    const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=386");
+    const data = await res.json();
 
-      setPokedex(pokedexWithSprites);
-    };
-    fetchPokedex();
-  }, []);
+    const pokedexWithSprites = await Promise.all(
+      data.results.map(async (p) => {
+        const res2 = await fetch(p.url);
+        const pokeData = await res2.json();
+        return { ...p, sprite: pokeData.sprites.front_default };
+      })
+    );
+
+    return pokedexWithSprites;
+  };
+
+  const {
+    data: pokedex = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["pokedex"],
+    queryFn: fetchPokedex,
+  });
 
   const selectPokemon = (index) => {
     setSelectedIndex(index);
     swiperRef.current?.slideTo(index);
   };
+
+  if (isLoading) {
+    return <div>Loading Pokedex...</div>;
+  }
+
+  if (isError) {
+    return <div>Error Fetching Data</div>;
+  }
 
   return (
     <Container fluid className="pokedex-container">
