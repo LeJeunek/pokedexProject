@@ -12,9 +12,20 @@ import "swiper/css";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [rotation, setRotation] = useState(0);
   const swiperRef = useRef(null);
 
   // Fetch Pokémon with sprites
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY; // current scroll position
+      setRotation(scrollY * 0.2); // adjust multiplier for speed
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const fetchPokedex = async () => {
     const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=386");
@@ -58,14 +69,20 @@ function App() {
       <Row className="h-100">
         {/* Emblem */}
         <Col md={3}>
-          <img src={pokeEmblem} className="pokeEmblem" alt="emblem" />
+          <h1 className="title">Pokedex</h1>
+          <img
+            src={pokeEmblem}
+            className="pokeEmblem"
+            alt="emblem"
+            style={{
+              transform: `rotate(${selectedIndex * 25}deg)`,
+              transition: "transform 0.4s ease-out",
+            }}
+          />
         </Col>
 
         {/* Pokémon Sprites */}
-        <Col
-          md={4}
-          className="pokedex-left text-center d-flex justify-content-center align-items-center"
-        >
+        <Col md={4} className="pokedex-left">
           <div
             style={{
               width: "100%",
@@ -91,6 +108,7 @@ function App() {
                   transition: "all 0.3s",
                   position: "absolute",
                   width: "400px",
+                  filter: "drop-shadow(0, 10px 15px rgba(28, 255, 8, 1))",
                 }}
               />
             )}
@@ -131,11 +149,7 @@ function App() {
         </Col>
 
         {/* Pokémon List with Swiper */}
-        <Col
-          md={5}
-          className="pokedex-list"
-          style={{ height: "85vh", marginTop: "60px", marginLeft: "60px" }}
-        >
+        <Col md={5} className="pokedex-list">
           <Swiper
             direction="vertical"
             slidesPerView="auto"
