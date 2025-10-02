@@ -7,15 +7,23 @@
 }
 
 body {
-  background: url(assets/bg-3.png) no-repeat center center fixed;
+  background: url(assets/bgmain2.png) no-repeat center center fixed;
   background-size: cover;
   color: #fafafa;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .pokedex-container {
   min-height: 100vh;
   border: 8px solid #7a4f20;
+  padding: 20px;
+}
+
+.pokedex-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .pokedex-left {
@@ -29,7 +37,6 @@ body {
   width: 100%;
   max-width: 650px;
   height: 80vh;
-  margin-top: 40px;
   box-shadow: 1px 200px 123px -21px rgba(43, 43, 43, 0.75) inset;
   overflow: hidden;
   position: relative;
@@ -47,13 +54,13 @@ body {
 }
 
 .pokedex-list {
-  overflow: visible;
+  overflow: hidden;
   background: #e8f038;
   border: 5px solid rgb(241, 55, 22);
   border-radius: 40px;
-  height: 85vh;
-  margin-top: 100px;
-  margin-left: 60px;
+  flex: 1 1 400px;
+  max-width: 650px;
+  min-height: 400px;
   color: black;
 }
 
@@ -66,7 +73,6 @@ body {
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
   text-transform: capitalize;
 }
 
@@ -77,37 +83,62 @@ body {
 }
 
 .pokeEmblem {
-  height: 90vh;
+  position: fixed;
+  top: 50%;
+  left: -20%;
+  transform: translateY(-50%);
+  z-index: -10;
+  width: 1150px;
+  height: 1150px;
 }
+
 .title {
   font-size: 2rem;
   margin: 1.5rem;
   background: white;
   color: black;
-  width: auto;
+  width: fit-content;
   padding: 20px;
   border-radius: 50px;
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .pokeEmblem {
-    position: relative;
-    left: -600px;
-    z-index: -20;
-  }
-}
-
+/* Mobile responsiveness */
 @media (max-width: 767.98px) {
-  .pokeEmblem {
-    display: none !important;
-  }
+  .pokedex-left,
   .pokedex-list {
+    width: 100% !important;
+    max-width: 400px;
     height: auto !important;
-    margin: 20px 0;
   }
 
   .pokedex-left img {
-    width: 250px !important; /* shrink sprite on phones */
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+  }
+
+  .pokeEmblem {
+    display: none !important;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    padding: 15px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1484px) {
+  .pokedex-left,
+  .pokedex-list {
+    width: 100% !important;
+    max-width: 500px;
+    height: auto !important;
+    margin-top: 20px;
+  }
+
+  .pokedex-left img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
   }
 }

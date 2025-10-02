@@ -12,21 +12,9 @@ import "swiper/css";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [rotation, setRotation] = useState(0);
   const swiperRef = useRef(null);
 
   // Fetch Pokémon with sprites
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY; // current scroll position
-      setRotation(scrollY * 0.2); // adjust multiplier for speed
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const fetchPokedex = async () => {
     const res = await fetch("https://pokeapi.co/api/v2/pokemon?limit=386");
     const data = await res.json();
@@ -56,43 +44,35 @@ function App() {
     swiperRef.current?.slideTo(index);
   };
 
-  if (isLoading) {
-    return <div>Loading Pokedex...</div>;
-  }
-
-  if (isError) {
-    return <div>Error Fetching Data</div>;
-  }
+  if (isLoading) return <div>Loading Pokedex...</div>;
+  if (isError) return <div>Error Fetching Data</div>;
 
   return (
     <Container fluid className="pokedex-container">
-      <Row className="h-100">
+      <Row className="pokedex-row">
         {/* Emblem */}
-        <Col md={3}>
+        <Col md={3} className="text-center">
           <h1 className="title">Pokedex</h1>
           <img
             src={pokeEmblem}
             className="pokeEmblem"
             alt="emblem"
             style={{
-              transform: `rotate(${selectedIndex * 25}deg)`,
-              transition: "transform 0.4s ease-out",
+              transform: `translateY(-50%) rotate(${selectedIndex * 25}deg)`,
             }}
           />
         </Col>
 
         {/* Pokémon Sprites */}
-        <Col md={4} className="pokedex-left">
+        <Col md={4} sm={12} className="pokedex-left mt-5 mx-auto my-auto">
           <div
             style={{
               width: "100%",
               height: "100%",
-              position: "relative",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              overflow: "hidden",
-              marginTop: "40px",
+              position: "relative",
             }}
           >
             {/* Previous */}
@@ -101,14 +81,12 @@ function App() {
                 src={pokedex[selectedIndex - 1].sprite}
                 alt="prev"
                 style={{
-                  maxWidth: "60%",
-                  maxHeight: "60%",
-                  opacity: 0.4,
-                  transform: "translateY(-90%) scale(0.8)", // above
-                  transition: "all 0.3s",
                   position: "absolute",
-                  width: "400px",
-                  filter: "drop-shadow(0, 10px 15px rgba(28, 255, 8, 1))",
+                  transform: "translateY(-90%) scale(0.8)",
+                  opacity: 0.4,
+                  width: "80%",
+                  maxWidth: "400px",
+                  transition: "all 0.3s",
                 }}
               />
             )}
@@ -119,12 +97,11 @@ function App() {
                 src={pokedex[selectedIndex].sprite}
                 alt={pokedex[selectedIndex].name}
                 style={{
-                  maxWidth: "80%",
-                  maxHeight: "80%",
+                  width: "60%",
+                  maxWidth: "400px",
                   objectFit: "contain",
                   zIndex: 2,
                   transition: "all 0.3s",
-                  width: "400px",
                 }}
               />
             )}
@@ -135,13 +112,12 @@ function App() {
                 src={pokedex[selectedIndex + 1].sprite}
                 alt="next"
                 style={{
-                  maxWidth: "60%",
-                  maxHeight: "60%",
-                  opacity: 0.4,
-                  transform: "translateY(90%) scale(0.8)", // below
-                  transition: "all 0.3s",
                   position: "absolute",
-                  width: "400px",
+                  transform: "translateY(90%) scale(0.8)",
+                  opacity: 0.4,
+                  width: "60%",
+                  maxWidth: "400px",
+                  transition: "all 0.3s",
                 }}
               />
             )}
@@ -149,17 +125,21 @@ function App() {
         </Col>
 
         {/* Pokémon List with Swiper */}
-        <Col md={5} className="pokedex-list">
+        <Col md={5} sm={12} className="pokedex-list me-auto">
           <Swiper
             direction="vertical"
-            slidesPerView="auto"
+            slidesPerView={12}
             centeredSlides={true}
             spaceBetween={10}
             modules={[Mousewheel]}
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
-            mousewheel={true}
-            style={{ height: "100%" }}
+            mousewheel={{
+              forceToAxis: true,
+              sensitivity: 2,
+              releaseOnEdges: true,
+            }}
+            style={{ height: "1100px", maxHeight: "80vh" }}
           >
             {pokedex.map((poke, index) => (
               <SwiperSlide key={poke.name} style={{ height: "80px" }}>
