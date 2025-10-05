@@ -51,20 +51,20 @@ function App() {
     <Container fluid className="pokedex-container">
       <Row className="pokedex-row">
         {/* Emblem */}
-        <Col md={3} className="text-center">
+        <Col xs={12} md={3} className="text-center">
           <h1 className="title">Pokedex</h1>
           <img
             src={pokeEmblem}
             className="pokeEmblem"
             alt="emblem"
             style={{
-              transform: `translateY(-50%) rotate(${selectedIndex * 25}deg)`,
-            }}
+        transform: `translateY(-50%) rotate(${selectedIndex * 25}deg)`,
+      }}
           />
         </Col>
 
         {/* Pokémon Sprites */}
-        <Col md={4} sm={12} className="pokedex-left mt-5 mx-auto my-auto">
+        <Col  xs={12} md={4} className="pokedex-left mt-5 mx-auto my-auto">
           <div
             style={{
               width: "100%",
@@ -85,7 +85,7 @@ function App() {
                   transform: "translateY(-90%) scale(0.8)",
                   opacity: 0.4,
                   width: "80%",
-                  maxWidth: "400px",
+                  maxWidth: "300px",
                   transition: "all 0.3s",
                 }}
               />
@@ -116,7 +116,7 @@ function App() {
                   transform: "translateY(90%) scale(0.8)",
                   opacity: 0.4,
                   width: "60%",
-                  maxWidth: "400px",
+                  maxWidth: "300px",
                   transition: "all 0.3s",
                 }}
               />
@@ -125,22 +125,23 @@ function App() {
         </Col>
 
         {/* Pokémon List with Swiper */}
-        <Col md={5} sm={12} className="pokedex-list me-auto">
-          <Swiper
-            direction="vertical"
-            slidesPerView={12}
-            centeredSlides={true}
-            spaceBetween={10}
-            modules={[Mousewheel]}
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
-            onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
-            mousewheel={{
-              forceToAxis: true,
-              sensitivity: 2,
-              releaseOnEdges: true,
-            }}
-            style={{ height: "1100px", maxHeight: "80vh" }}
-          >
+        <Col  xs={12} md={5} className="pokedex-list ms-md-auto">
+         <Swiper
+  direction="vertical"
+  slidesPerView={window.innerWidth < 768 ? 6 : 12} // fewer items on mobile
+  centeredSlides={true}
+  spaceBetween={18}
+  modules={[Mousewheel]}
+  onSwiper={(swiper) => (swiperRef.current = swiper)}
+  onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
+  mousewheel={{
+    forceToAxis: true,
+    sensitivity: 2,
+    releaseOnEdges: true,
+  }}
+  style={{ height: "100%", maxHeight: "80vh", paddingBottom: "2px" }} // let container decide
+>
+
             {pokedex.map((poke, index) => (
               <SwiperSlide key={poke.name} style={{ height: "80px" }}>
                 <div
