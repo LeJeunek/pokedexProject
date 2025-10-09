@@ -11,6 +11,7 @@ body {
   background-size: cover;
   color: #fafafa;
   overflow-x: hidden;
+  overflow: hidden;
   position: relative;
 }
 body::after {
@@ -37,6 +38,7 @@ body::after {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 20px;
 }
 
@@ -46,7 +48,7 @@ body::after {
   border-radius: 40px;
   display: flex;
 
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
@@ -110,7 +112,7 @@ body::after {
   top: 50%;
   left: -20%;
   transform: translateY(-50%);
-  z-index: -10;
+  z-index: -99;
   width: 1150px;
   height: 1150px;
 }
@@ -161,7 +163,7 @@ body::after {
     margin-top: 20px;
   }
   .pokedex-left {
-    height: auto;
+    height: 75vh;
     display: flex;
   }
   .pokedex-list {

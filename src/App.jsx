@@ -52,21 +52,19 @@ function App() {
       <Row className="pokedex-row">
         {/* Emblem */}
         <h1 className="title">Pokedex</h1>
-        <Col xs={12} md={3} className="text-center">
-          <h1 className="title">Pokedex</h1>
-          <img
-            src={pokeEmblem}
-            className="pokeEmblem"
-            alt="emblem"
-            style={{
-        transform: `translateY(-50%) rotate(${selectedIndex * 25}deg)`,
-      }}
-          />
-        </Col>
+
+        <img
+          src={pokeEmblem}
+          className="pokeEmblem"
+          alt="emblem"
+          style={{
+            transform: `translateY(-50%) rotate(${selectedIndex * 25}deg)`,
+          }}
+        />
 
         {/* Pokémon Sprites */}
-        <Col  xs={12} md={4} className="pokedex-left mt-5 mx-auto my-auto">
-        <Col md={4} sm={12} className="pokedex-left mt-5 ">
+
+        <Col md={4} xs={12} className="pokedex-left mt-5 ">
           <div
             style={{
               width: "100%",
@@ -130,24 +128,7 @@ function App() {
         </Col>
 
         {/* Pokémon List with Swiper */}
-        <Col  xs={12} md={5} className="pokedex-list ms-md-auto">
-         <Swiper
-  direction="vertical"
-  slidesPerView={window.innerWidth < 768 ? 6 : 12} // fewer items on mobile
-  centeredSlides={true}
-  spaceBetween={18}
-  modules={[Mousewheel]}
-  onSwiper={(swiper) => (swiperRef.current = swiper)}
-  onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
-  mousewheel={{
-    forceToAxis: true,
-    sensitivity: 2,
-    releaseOnEdges: true,
-  }}
-  style={{ height: "100%", maxHeight: "80vh", paddingBottom: "2px" }} // let container decide
->
-
-        <Col md={5} sm={12} className="pokedex-list">
+        <Col md={5} xs={12} className="pokedex-list">
           <Swiper
             direction="vertical"
             slidesPerView={12}
@@ -158,7 +139,7 @@ function App() {
             onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
             mousewheel={{
               forceToAxis: true,
-              sensitivity: 10,
+              sensitivity: 2,
               releaseOnEdges: true,
             }}
             style={{ height: "1100px", maxHeight: "80vh" }}
