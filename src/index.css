@@ -11,6 +11,20 @@ body {
   background-size: cover;
   color: #fafafa;
   overflow-x: hidden;
+  position: relative;
+}
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: url("https://www.transparenttextures.com/patterns/fabric-1-dark.png");
+
+  opacity: 0.4;
+  mix-blend-mode: overlay;
 }
 
 .pokedex-container {
@@ -31,11 +45,11 @@ body {
   border: 5px solid #e4e9e3;
   border-radius: 40px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+
   flex-direction: column;
   width: 100%;
   max-width: 650px;
+
   height: 80vh;
   box-shadow: 1px 200px 123px -21px rgba(43, 43, 43, 0.75) inset;
   overflow: hidden;
@@ -94,15 +108,19 @@ body {
 
 .title {
   font-size: 2rem;
+
   margin: 1.5rem;
   background: white;
   color: black;
-  width: fit-content;
-  padding: 20px;
+
   border-radius: 50px;
   text-align: center;
+  display: flex;
 }
-
+.rotateLogo {
+  position: absolute;
+  z-index: -99;
+}
 /* Mobile responsiveness */
 @media (max-width: 767.98px) {
   .pokedex-left,
@@ -115,7 +133,6 @@ body {
   .pokedex-left img {
     width: 100%;
     max-width: 250px;
-    height: auto;
   }
 
   .pokeEmblem {
@@ -132,13 +149,20 @@ body {
   .pokedex-list {
     width: 100% !important;
     max-width: 500px;
-    height: auto !important;
     margin-top: 20px;
+  }
+  .pokedex-left {
+    height: auto;
+    display: flex;
+  }
+  .pokedex-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .pokedex-left img {
-    width: 100%;
     max-width: 250px;
-    height: auto;
   }
 }
+@media();

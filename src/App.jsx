@@ -51,8 +51,8 @@ function App() {
     <Container fluid className="pokedex-container">
       <Row className="pokedex-row">
         {/* Emblem */}
-        <Col md={3} className="text-center">
-          <h1 className="title">Pokedex</h1>
+        <h1 className="title">Pokedex</h1>
+        <Col md={3} className="rotateLogo">
           <img
             src={pokeEmblem}
             className="pokeEmblem"
@@ -64,7 +64,7 @@ function App() {
         </Col>
 
         {/* Pokémon Sprites */}
-        <Col md={4} sm={12} className="pokedex-left mt-5 mx-auto my-auto">
+        <Col md={4} sm={12} className="pokedex-left mt-5 ">
           <div
             style={{
               width: "100%",
@@ -80,6 +80,7 @@ function App() {
               <img
                 src={pokedex[selectedIndex - 1].sprite}
                 alt="prev"
+                className="img-fluid"
                 style={{
                   position: "absolute",
                   transform: "translateY(-90%) scale(0.8)",
@@ -96,10 +97,11 @@ function App() {
               <img
                 src={pokedex[selectedIndex].sprite}
                 alt={pokedex[selectedIndex].name}
+                className="img-fluid"
                 style={{
                   width: "60%",
                   maxWidth: "400px",
-                  objectFit: "contain",
+
                   zIndex: 2,
                   transition: "all 0.3s",
                 }}
@@ -111,6 +113,7 @@ function App() {
               <img
                 src={pokedex[selectedIndex + 1].sprite}
                 alt="next"
+                className="img-fluid"
                 style={{
                   position: "absolute",
                   transform: "translateY(90%) scale(0.8)",
@@ -125,7 +128,7 @@ function App() {
         </Col>
 
         {/* Pokémon List with Swiper */}
-        <Col md={5} sm={12} className="pokedex-list me-auto">
+        <Col md={5} sm={12} className="pokedex-list">
           <Swiper
             direction="vertical"
             slidesPerView={12}
@@ -136,7 +139,7 @@ function App() {
             onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
             mousewheel={{
               forceToAxis: true,
-              sensitivity: 2,
+              sensitivity: 10,
               releaseOnEdges: true,
             }}
             style={{ height: "1100px", maxHeight: "80vh" }}
