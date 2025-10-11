@@ -4,6 +4,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import pokeEmblem from "./assets/pokemonEmblem.svg";
 import "./index.css";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel } from "swiper/modules";
@@ -151,8 +153,8 @@ function App() {
                     selectedIndex === index ? "active" : ""
                   }`}
                   onClick={() => selectPokemon(index)}
-                >
-                  #{index + 1} {poke.name}
+                > #{index + 1} {poke.name}<span className="stats-link"><Link to={`/pokemon/${poke.name}`} style={{ textDecoration: "none", color: "inherit"}}>STATS</Link></span>
+                  
                 </div>
               </SwiperSlide>
             ))}
