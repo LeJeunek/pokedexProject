@@ -6,15 +6,9 @@ import "./index.css";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
-// Swiper imports
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Mousewheel } from "swiper/modules";
-
-import "swiper/css";
-
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const swiperRef = useRef(null);
+  const listRef = useRef(null);
 
   // Fetch Pokémon with sprites
   const fetchPokedex = async () => {
@@ -41,10 +35,27 @@ function App() {
     queryFn: fetchPokedex,
   });
 
-  const selectPokemon = (index) => {
-    setSelectedIndex(index);
-    swiperRef.current?.slideTo(index);
-  };
+  // Handle scroll to keep center item selected
+  useEffect(() => {
+    const handleScroll = () => {
+      const list = listRef.current;
+      if (!list) return;
+
+      const scrollTop = list.scrollTop;
+      const itemHeight = 80; // same as .list-item height in CSS
+      const containerHeight = list.clientHeight;
+      const centerY = scrollTop + containerHeight / 2;
+
+      const index = Math.floor(centerY / itemHeight);
+      if (index >= 0 && index < pokedex.length) {
+        setSelectedIndex(index);
+      }
+    };
+
+    const list = listRef.current;
+    list?.addEventListener("scroll", handleScroll);
+    return () => list?.removeEventListener("scroll", handleScroll);
+  }, [pokedex]);
 
   if (isLoading) return <div>Loading Pokedex...</div>;
   if (isError) return <div>Error Fetching Data</div>;
@@ -52,9 +63,10 @@ function App() {
   return (
     <Container fluid className="pokedex-container">
       <Row className="pokedex-row">
-        {/* Emblem */}
+        {/* Title */}
         <h1 className="title">Pokedex</h1>
 
+        {/* Rotating Emblem */}
         <img
           src={pokeEmblem}
           className="pokeEmblem"
@@ -65,7 +77,6 @@ function App() {
         />
 
         {/* Pokémon Sprites */}
-
         <Col md={4} xs={12} className="pokedex-left mt-5 ">
           <div
             style={{
@@ -103,7 +114,6 @@ function App() {
                 style={{
                   width: "60%",
                   maxWidth: "400px",
-
                   zIndex: 2,
                   transition: "all 0.3s",
                 }}
@@ -129,36 +139,34 @@ function App() {
           </div>
         </Col>
 
-        {/* Pokémon List with Swiper */}
+        {/* Scrollable Pokémon List */}
         <Col md={5} xs={12} className="pokedex-list">
-          <Swiper
-            direction="vertical"
-            slidesPerView={12}
-            centeredSlides={true}
-            spaceBetween={10}
-            modules={[Mousewheel]}
-            onSwiper={(swiper) => (swiperRef.current = swiper)}
-            onSlideChange={(swiper) => setSelectedIndex(swiper.activeIndex)}
-            mousewheel={{
-              forceToAxis: true,
-              sensitivity: 2,
-              releaseOnEdges: true,
-            }}
-            style={{ height: "1100px", maxHeight: "80vh" }}
-          >
+          <div className="scroll-list" ref={listRef}>
             {pokedex.map((poke, index) => (
-              <SwiperSlide key={poke.name} style={{ height: "80px" }}>
-                <div
-                  className={`list-item ${
-                    selectedIndex === index ? "active" : ""
-                  }`}
-                  onClick={() => selectPokemon(index)}
-                > #{index + 1} {poke.name}<span className="stats-link"><Link to={`/pokemon/${poke.name}`} style={{ textDecoration: "none", color: "inherit"}}>STATS</Link></span>
-                  
-                </div>
-              </SwiperSlide>
+              <div
+                key={poke.name}
+                className={`list-item ${
+                  selectedIndex === index ? "active" : ""
+                }`}
+                onClick={() =>
+                  listRef.current.scrollTo({
+                    top: index * 80 - listRef.current.clientHeight / 2 + 40,
+                    behavior: "smooth",
+                  })
+                }
+              >
+                #{index + 1} {poke.name}
+                <span className="stats-link">
+                  <Link
+                    to={`/pokemon/${poke.name}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    STATS
+                  </Link>
+                </span>
+              </div>
             ))}
-          </Swiper>
+          </div>
         </Col>
       </Row>
     </Container>

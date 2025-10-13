@@ -29,7 +29,27 @@ body::after {
   opacity: 0.4;
   mix-blend-mode: overlay;
 }
+.scroll-list {
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+  margin: 20px;
+}
 
+.scroll-list::-webkit-scrollbar {
+  width: 12px;
+  height: auto;
+}
+.scroll-list::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  border-radius: 10px;
+}
+
+.scroll-list::-webkit-scrollbar-track {
+  background: #b89858;
+  border-radius: 2px;
+}
 .pokedex-container {
   min-height: 100vh;
   border: 8px solid #7a4f20;
@@ -75,7 +95,8 @@ body::after {
 }
 
 .pokedex-list {
-  overflow: hidden;
+  overflow-y: auto; /* allow vertical scroll */
+  overflow-x: hidden; /* hide horizontal scroll */
   background: #e8f038;
   border: 5px solid rgb(241, 55, 22);
   border-radius: 40px;
@@ -84,18 +105,30 @@ body::after {
   min-height: 400px;
   color: black;
 }
+.pokedex-list::-webkit-scrollbar {
+  width: 12px;
+}
+.pokedex-list::-webkit-scrollbar-track {
+  background: #fff7a8;
+  border-radius: 10px;
+}
+.pokedex-list::-webkit-scrollbar-thumb {
+  background-color: #ff0000;
+  border-radius: 10px;
+  border: 2px solid #fff7a8;
+}
 
 .list-item {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+
   height: auto;
   width: 100%;
   font-weight: bold;
   line-height: 2.7;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.2s, color 0.2s;
   text-transform: capitalize;
   margin-bottom: 1rem;
   padding: 0 40px;
@@ -109,13 +142,17 @@ body::after {
   font-weight: 700;
 }
 .stats-link {
-  margin-left: 10px;
+  margin-left: auto;
   font-size: 0.8rem;
   color: #ff0000;
   font-weight: bold;
   background: white;
   padding: 2px 6px;
   border-radius: 12px;
+  border: 3px solid black;
+}
+.stats-link:hover {
+  background: hsl(0, 0%, 90%);
 }
 
 .pokeEmblem {
@@ -149,11 +186,11 @@ body::after {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column  ;
+  flex-direction: column;
   border: 5px solid #e4e9e3;
   border-radius: 40px;
   width: 100%;
-  background: #D8D8D8;
+  background: #d8d8d8;
   color: black;
   height: auto;
   padding: 20px;
@@ -180,18 +217,17 @@ body::after {
   color: black;
   background: white;
   border: 3px solid black;
-  margin: 20px 0;
+  margin: 20px;
+  display: inline-block;
   padding: 10px 40px;
   font-weight: bold;
   text-decoration: none;
   border-radius: 20px;
-  width: fit-content;
-  height: 1.5rem;
-
 }
 
 .back-btn:hover {
-  text-decoration: underline;
+  background: hsl(0, 0%, 90%);
+  color: #ff0000;
 }
 
 /* Mobile responsiveness */
